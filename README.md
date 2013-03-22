@@ -3,7 +3,7 @@ greenhouse-vidswitcher
 
 A simple video switcher using [Oblong](http://oblong.com/)'s Greenhouse SDK.
 
-Written originally for [FTC Team 4628 The Suit Bots](http://suitbots.com/) to
+Written originally for [The Suit Bots (FTC Team 4628)](http://suitbots.com/) to
 show their videos at [FIRST Tech Challenge](http://www.usfirst.org/roboticsprograms/ftc)
 tournaments.  The Suit Bots' tournament display routes input via a
 [MaKey MaKey](http://makeymakey.com/).  Input via
@@ -48,7 +48,13 @@ the individual videos are as follows:
 * **title**: The title to be displayed under the video
 * **audio**: The amount to scale the video's volume by (default: 1.0)
 
-Example: `./vids example.prot`
+Example:
+
+    ./vids example.prot
+
+`vids` will run in full-screen mode if the environment variable FULLSCREEN is set:
+
+    env FULLSCREEN=yes ./vids example.prot
 
 Controls
 --------
