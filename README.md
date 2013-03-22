@@ -10,10 +10,9 @@ tournaments.  The Suit Bots' tournament display routes input via a
 [g-speak mobile](https://itunes.apple.com/us/app/g-speak-mobile/id460504931?mt=8)
 is supported as well.
 
+![Greenhouse Videos: pushed back](./img/greenhouse-vids-pushed-back.png)
 
-<img src="./img/greenhouse-vids-pushed-back.png" alt="Greenhouse Videos: pushed back"/>
-
-<img src="./img/greenhouse-vids-running.png" alt="Greenhouse Videos: running"/>
+![Greenhouse Videos: running](./img/greenhouse-vids-running.png)
 
 Building
 --------
