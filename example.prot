@@ -1,0 +1,10 @@
+!<tag:oblong.com,2009:slaw/protein>
+descrips:
+- vids
+- config
+ingests:
+  videos:
+  - { file: "/Users/cp/sb/promote.mov", title: "Promote Award Video", audio: .3 }
+  - { file: "/Users/cp/sb/score_235.mp4", title: "Two Thirty Five", audio: .2 }
+  - { file: "/Users/cp/sb/ex_weight.mov", title: "Weighted Ring Detector", audio: .5 }
+  - { file: "/Users/cp/sb/ex_lift.mov", title: "Endgame Fork Lift", audio: 1.5 }
