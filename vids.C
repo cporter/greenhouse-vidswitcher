@@ -68,7 +68,6 @@ public:
                                              same_count (0)
   {
     Text *t = new Text (name);
-    // t -> SetFontSize (t -> FontSize () * 2.0);
     Vect trans (0.0, -Height () / 2.0 - t -> Height (), 0.0);
     t -> SetAlignmentCenter ();
     t -> SetTranslation (trans);
@@ -118,7 +117,6 @@ public:
       ZeroTime ();
     }
   }
-
 };
 
 static const float MOVE_FACTOR = 50.0;
@@ -154,17 +152,6 @@ private:
     SetRelTrans (move);
   }
 
-  void SnapToClosest () {
-    if (0 == vids . size ())
-      return;
-    Vect tg = RelTrans ();
-    const float x = tg.x;
-    const float tot = vids . size () * (vids[0] -> Width () + MOVE_FACTOR);
-    const float t = floorf(0.5 + tot / x);
-    const int target = t;
-    SetIndex (target);
-  }
-
   void SetIndex (const size_t idx) {
     vids[index] -> SetActive(false);
     vids[index] -> Stop ();
@@ -195,29 +182,6 @@ private:
     SetRelTrans (v);
   }
 
-  void ClampTranslation () {
-    const float64
-      min_z = pushback_min,
-      max_z = 0.0,
-      max_x = 0.0,
-      min_x = (vids . size () - 1) * (vids[0] -> Width () + MOVE_FACTOR)
-      * -1.0;
-
-    Vect tg = RelTrans ();
-
-    tg.z = std::min (max_z, std::max (min_z, tg.z));
-    tg.x = std::min (max_x, std::max (min_x, tg.x));
-
-    SetRelTrans (tg);
-  }
-
-  void IncTrans (const Vect &v) {
-    if (0 == vids . size ())
-      return;
-    IncTranslation (v);
-    ClampTranslation ();
-  }
-
   void MoveLeft () { Move (-1); }
   void MoveRight () { Move (1); }
 
@@ -246,11 +210,6 @@ public:
     if (Utters (e, "a") || Utters (e, LEFT)) MoveLeft ();
     else if (Utters (e, "d") || Utters (e, RIGHT)) MoveRight ();
     else if (Utters (e, UP) || Utters (e, "s")) TogglePushback ();
-    else if (Utters (e, "z")) IncTrans (Vect(-10.0, 0.0, 0.0));
-    else if (Utters (e, "c")) IncTrans (Vect(10.0, 0.0, 0.0));
-    else if (Utters (e, "g")) IncTrans (Vect (0.0, 0.0, 10.0));
-    else if (Utters (e, "b")) IncTrans (Vect (0.0, 0.0, -10.0));
-    else if (Utters (e, "v")) SnapToClosest ();
   }
 
   virtual void SwipeLeft (BlurtEvent *) { MoveRight (); }
