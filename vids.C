@@ -12,16 +12,17 @@ using namespace oblong::greenhouse;
 // super magic values for the arrow keys
 // also handy for hooking a Greenhouse
 // application up to a MaKey MaKey.
-const char *UP    = "\xef\x9c\x80";
-const char *DOWN  = "\xef\x9c\x81";
-const char *LEFT  = "\xef\x9c\x82";
-const char *RIGHT = "\xef\x9c\x83";
-
-
-#define WAIT_BEFORE_DISPLAY 300.0
-#define TEXT_VISIBLE_ALPHA .75
+static const char *UP    = "\xef\x9c\x80";
+static const char *DOWN  = "\xef\x9c\x81";
+static const char *LEFT  = "\xef\x9c\x82";
+static const char *RIGHT = "\xef\x9c\x83";
 
 class Instructions  :  public Image {
+private:
+  // If this many seconds of inactivity happen, display the instructions
+  static const float64 WAIT_BEFORE_DISPLAY;
+  // When instructions are displayed, this is their opacity level
+  static const float64 TEXT_VISIBLE_ALPHA;
 public:
   Instructions (Str const& s)  :  Image () {
     SetName ("instructions");
@@ -54,11 +55,18 @@ public:
   virtual void PointingSoften (PointingEvent *) { Dismiss (); }
 };
 
+const float64 Instructions::WAIT_BEFORE_DISPLAY = 300.0;
+const float64 Instructions::TEXT_VISIBLE_ALPHA = 0.75;
+
 class Vid  :  public Video {
 private:
   bool active;
   float64 last_timestamp;
   size_t same_count;
+
+  // If you harden/soften twice within a quarter second, treat that as "stop & rewind"
+  // rather than toggling play/pause.
+  static const float64 STOP_TIME_THRESHOLD;
 
   SINGLE_ARG_HOOK_MACHINERY (Done, Vid*);
 public:
@@ -102,10 +110,6 @@ public:
     return tort;
   }
 
-  // If you harden/soften twice within a quarter second, treat that as "stop & rewind"
-  // rather than toggling play/pause.
-  #define STOP_TIME_THRESHOLD 0.25
-
   virtual void PointingSoften (PointingEvent *) {
     if (active) {
       if (STOP_TIME_THRESHOLD > CurTime ()) {
@@ -119,7 +123,7 @@ public:
   }
 };
 
-static const float MOVE_FACTOR = 50.0;
+const float64 Vid::STOP_TIME_THRESHOLD = 0.25;
 
 struct VidDesc { Str path, name; float64 volume; };
 
@@ -131,6 +135,8 @@ private:
   bool pushed_back;
   float pushback_min;
   Vect fist_begin;
+
+  static const float64 MOVE_FACTOR;
 
   void SetRelTrans (const Vect &v) {
     SetTranslation (Feld () -> Loc () + v);
@@ -224,6 +230,7 @@ public:
   }
 };
 
+const float64 Vids::MOVE_FACTOR = 50.0;
 
 static std::vector<VidDesc> ParseConfigFile (Str const &filename) {
   std::vector<VidDesc> videos;
