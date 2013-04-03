@@ -1,7 +1,7 @@
 greenhouse-vidswitcher
 ======================
 
-A simple video switcher using [Oblong](http://oblong.com/)'s Greenhouse SDK.
+A simple video switcher using [Oblong](http://oblong.com/)'s [Greenhouse SDK](http://greenhouse.oblong.com/).
 
 Written originally for [The Suit Bots (FTC Team 4628)](http://suitbots.com/) to
 show their videos at [FIRST Tech Challenge](http://www.usfirst.org/roboticsprograms/ftc)
