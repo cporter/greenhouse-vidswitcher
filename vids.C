@@ -87,9 +87,9 @@ public:
     if (! active)
       return;
 
-    if (Utters(e, "p") || Utters (e, " "))
+    if (Utters(e, "p") || Utters (e, " ") || Utters (e, "play"))
       TogglePlay ();
-    else if (Utters (e, "R") || Utters (e, DOWN)) {
+    else if (Utters (e, "R") || Utters (e, DOWN) || Utters (e, "stop")) {
       Stop ();
       Rewind ();
     }
@@ -216,6 +216,11 @@ public:
     if (Utters (e, "a") || Utters (e, LEFT)) MoveLeft ();
     else if (Utters (e, "d") || Utters (e, RIGHT)) MoveRight ();
     else if (Utters (e, UP) || Utters (e, "s")) TogglePushback ();
+    else if (Utters (e, "next"))
+      { Str genus = e -> Genus ();
+        if (genus . Match ("left")) MoveLeft ();
+        else MoveRight ();
+      }
   }
 
   virtual void SwipeLeft (BlurtEvent *) { MoveRight (); }
@@ -258,6 +263,9 @@ static std::vector<VidDesc> ParseConfigFile (Str const &filename) {
 void Setup () {
   HideNeedlePoints ();
   SetFeldsColor (Color (0.0, 0.0, 0.0));
+  RegisterOneHandBlurt ("next", "^^^|-:**");
+  RegisterOneHandBlurt ("play", VictoryPose);
+  RegisterTwoHandBlurt ("stop", NumberOnePose, NumberOnePose);
   if (0 < args . Count ()) {
     std::vector<VidDesc> videos = ParseConfigFile (args[0]);
     Vids *vids = new Vids (videos);
